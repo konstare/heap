@@ -1,0 +1,84 @@
+* Example
+#+begin_src c
+  int *x = NULL; /* initialize to NULL, replace *int* with any type you want */
+  HEAP(int) y = NULL;  /*This is equivalent initialization */
+
+  HEAP_INIT(x, compare_fn);
+
+  /*Insert values into the HEAP*/
+  HEAP_INSERT(x, 2);
+  HEAP_INSERT(x, 10);
+  HEAP_INSERT(x, 1);
+  HEAP_INSERT(x, 20);
+  HEAP_INSERT(x, 5);
+  HEAP_INSERT(x, 50);
+
+
+  /*Will not compile
+  HEAP_INSERT(x, "d");
+  */
+  
+  
+  /*Get root of the heap*/
+  int *root = HEAP_ROOT(x);
+  /*Will not compile
+  char *root = HEAP_ROOT(x);
+  */
+  printf("%d\n", *root);
+
+  /*Remove root*/
+  HEAP_POP(x);
+
+  /* standard [] lookup of values */
+  for(size_t i=0; i< HEAP_SIZE(x); i++){
+    printf("%d ", x[i]);
+  }
+  
+  /* free memory */
+  HEAP_FREE(x);
+  HEAP_FREE(y);
+#+end_src
+
+* How it works
+
+The heap data structure is built in the same style as [[https://github.com/graphitemaster/cvec][vector]].
+
+Metadata of a heap is stored as a header behind the pointer exactly sizeof(heap_t) behind.
+
+#+begin_src ditaa
+  +------------+------------------+
+  | Header | Vector data  |
+  +------------+------------------+
+                    |
+                     ` -> Pointer returned to the user.
+#+end_src
+
+This is how operator [] can still be used for indexing. Some type safety is provided by having the pointer encode the type via the language itself. 
+
+* API
+
+Note that HEAP is any pointer type and that the API is mostly implemented using macros. The macros all take HEAP argument, size and indexing arguments are expected to be size_t.
+
+- HEAP_INIT(HEAP, FUNCTION)
+    Init [HEAP] with comparison function [FUNCTION] between elements
+
+- HEAP_SIZE(HEAP)
+    Get the size of [HEAP]
+
+- HEAP_ROOT(HEAP)
+    Show the root of the [HEAP]
+
+- HEAP_POP(HEAP)
+    Remove the root of the [HEAP]
+
+- HEAP_INSERT(HEAP, VALUE)
+    Insert [VALUE] into the [HEAP]
+
+- HEAP_FREE(HEAP)
+    Deletes [HEAP] and sets it to NULL
+
+- HEAP_TRY_GROW(HEAP, MORE)
+    Attempts to grow [HEAP] by [MORE]
+
+- HEAP_META(HEAP)
+    Get the metadata block for [HEAP]
