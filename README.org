@@ -44,12 +44,13 @@
 The heap data structure is built in the same style as [[https://github.com/graphitemaster/cvec][vector]].
 
 Metadata of a heap is stored as a header behind the pointer exactly sizeof(heap_t) behind.
-
+#+begin_src diaa
   +------------+------------------+
   | Header     | Vector data      |
   +------------+------------------+
                                 |
                                  ` -> Pointer returned to the user.
+#+end_src diaa
 
 This is how operator [] can still be used for indexing. Some type safety is provided by having the pointer encode the type via the language itself. 
 
