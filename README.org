@@ -45,13 +45,11 @@ The heap data structure is built in the same style as [[https://github.com/graph
 
 Metadata of a heap is stored as a header behind the pointer exactly sizeof(heap_t) behind.
 
-#+begin_src ditaa
   +------------+------------------+
-  | Header | Vector data  |
+  | Header     | Vector data      |
   +------------+------------------+
-                    |
-                     ` -> Pointer returned to the user.
-#+end_src
+                                |
+                                 ` -> Pointer returned to the user.
 
 This is how operator [] can still be used for indexing. Some type safety is provided by having the pointer encode the type via the language itself. 
 
@@ -60,25 +58,33 @@ This is how operator [] can still be used for indexing. Some type safety is prov
 Note that HEAP is any pointer type and that the API is mostly implemented using macros. The macros all take HEAP argument, size and indexing arguments are expected to be size_t.
 
 - HEAP_INIT(HEAP, FUNCTION)
-    Init [HEAP] with comparison function [FUNCTION] between elements
+
+      Init [HEAP] with comparison function [FUNCTION] between elements
 
 - HEAP_SIZE(HEAP)
+
     Get the size of [HEAP]
 
 - HEAP_ROOT(HEAP)
+
     Show the root of the [HEAP]
 
 - HEAP_POP(HEAP)
+
     Remove the root of the [HEAP]
 
 - HEAP_INSERT(HEAP, VALUE)
+
     Insert [VALUE] into the [HEAP]
 
 - HEAP_FREE(HEAP)
+
     Deletes [HEAP] and sets it to NULL
 
 - HEAP_TRY_GROW(HEAP, MORE)
+
     Attempts to grow [HEAP] by [MORE]
 
 - HEAP_META(HEAP)
+
     Get the metadata block for [HEAP]
